@@ -1,10 +1,7 @@
+import Home from "./pages/Home"
+
 function App() {
-  return (
-    <div>
-      <h1>Loja de Roupas</h1>
-      <p>Projeto de Desenvolvimento Híbrido</p>
-    </div>
-  )
+  return <Home />
 }
 
 export default App
