@@ -1,7 +1,40 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
+import { adicionarProduto } from "../services/carrinhoService"
 
 function ProductCard({ produto }) {
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState("")
+  const { usuario } = useAuth()
+const navigate = useNavigate()
+const [mensagem, setMensagem] = useState("")
+
+async function adicionarAoCarrinho() {
+  setMensagem("")
+
+  if (!usuario) {
+    navigate("/login")
+    return
+  }
+
+  if (!tamanhoSelecionado) {
+    setMensagem("Selecione um tamanho.")
+    return
+  }
+
+  try {
+    await adicionarProduto(
+      usuario.uid,
+      produto,
+      tamanhoSelecionado
+    )
+
+    setMensagem("Produto adicionado ao carrinho!")
+  } catch (error) {
+    console.error("Erro ao adicionar produto:", error)
+    setMensagem("Erro ao adicionar produto.")
+  }
+}
 
   return (
     <div className="product-card">
@@ -37,9 +70,18 @@ function ProductCard({ produto }) {
           </div>
         </div>
 
-        <button className="add-cart-button" type="button">
-          Adicionar ao carrinho
-        </button>
+       <button
+  className="add-cart-button"
+  type="button"
+  onClick={adicionarAoCarrinho}
+>
+  Adicionar ao carrinho
+</button>
+{mensagem && (
+  <p className="cart-message">
+    {mensagem}
+  </p>
+)}
       </div>
     </div>
   )

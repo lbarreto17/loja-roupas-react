@@ -21,7 +21,7 @@ function Navbar() {
         <nav className="nav-links">
           <a href="#inicio">Início</a>
           <a href="#produtos">Produtos</a>
-          <a href="#carrinho">Carrinho</a>
+          <Link to="/carrinho">Carrinho</Link>
           {usuario ? (
   <button type="button" onClick={sair}>
     Sair
