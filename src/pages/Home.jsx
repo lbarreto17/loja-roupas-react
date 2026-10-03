@@ -1,9 +1,30 @@
+import { useState } from "react"
 import Navbar from "../components/Navbar"
 import ProductCard from "../components/ProductCard"
 import Footer from "../components/Footer"
 import produtos from "../data/produtos"
 
 function Home() {
+  const [categoriaSelecionada, setCategoriaSelecionada] =
+    useState("Todos")
+
+  const categorias = [
+    "Todos",
+    "Camisetas",
+    "Moletons",
+    "Calças",
+    "Bermudas",
+    "Jaquetas",
+  ]
+
+  const produtosFiltrados =
+    categoriaSelecionada === "Todos"
+      ? produtos
+      : produtos.filter(
+          (produto) =>
+            produto.categoria === categoriaSelecionada
+        )
+
   return (
     <>
       <Navbar />
@@ -52,23 +73,35 @@ function Home() {
         <section className="products-section" id="produtos">
           <div className="section-title">
             <p>CONHEÇA NOSSA COLEÇÃO</p>
+
             <h2>Produtos em destaque</h2>
+
             <span>
               Peças selecionadas para você montar seu estilo.
             </span>
           </div>
 
           <div className="category-tags">
-            <span>Todos</span>
-            <span>Camisetas</span>
-            <span>Moletons</span>
-            <span>Calças</span>
-            <span>Bermudas</span>
-            <span>Jaquetas</span>
+            {categorias.map((categoria) => (
+              <button
+                key={categoria}
+                type="button"
+                className={
+                  categoriaSelecionada === categoria
+                    ? "category-active"
+                    : ""
+                }
+                onClick={() =>
+                  setCategoriaSelecionada(categoria)
+                }
+              >
+                {categoria}
+              </button>
+            ))}
           </div>
 
           <div className="products-grid">
-            {produtos.map((produto) => (
+            {produtosFiltrados.map((produto) => (
               <ProductCard
                 key={produto.id}
                 produto={produto}

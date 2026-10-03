@@ -1072,3 +1072,64 @@ a {
     flex-direction: column;
   }
 }
+
+/* ========================================
+   FILTROS DE CATEGORIA
+======================================== */
+
+.category-tags {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 32px 0 45px;
+}
+
+.category-tags button {
+  appearance: none;
+  border: 1px solid #d7d2c9;
+  background: #ffffff;
+  color: #082f27;
+
+  padding: 10px 22px;
+  border-radius: 999px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.category-tags button:hover {
+  background: #f5f1e9;
+  border-color: #8d1b2b;
+  color: #8d1b2b;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* Categoria atualmente selecionada */
+.category-tags button.category-active {
+  background: #073b31;
+  border-color: #073b31;
+  color: #ffffff;
+
+  box-shadow: 0 5px 14px rgba(7, 59, 49, 0.18);
+}
+
+.category-tags button.category-active:hover {
+  background: #0a493d;
+  border-color: #0a493d;
+  color: #ffffff;
+}

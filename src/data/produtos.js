@@ -13,7 +13,7 @@ const produtos = [
     preco: 89.9,
     categoria: "Camisetas",
     tamanhos: ["P", "M", "G", "GG"],
-    imagem: "/produtos/camiseta-oversized.png",
+    imagem: "/produtos/camiseta-oversize.png",
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ const produtos = [
     preco: 149.9,
     categoria: "Moletons",
     tamanhos: ["P", "M", "G", "GG"],
-    imagem: "/produtos/moletom.png",
+    imagem: "/produtos/moletom-premium.png",
   },
   {
     id: 5,
@@ -37,7 +37,7 @@ const produtos = [
     preco: 79.9,
     categoria: "Bermudas",
     tamanhos: ["38", "40", "42", "44"],
-    imagem: "/produtos/bermuda.png",
+    imagem: "/produtos/bermuda-casual.png",
   },
   {
     id: 6,
@@ -45,7 +45,7 @@ const produtos = [
     preco: 199.9,
     categoria: "Jaquetas",
     tamanhos: ["P", "M", "G", "GG"],
-    imagem: "/produtos/jaqueta.png",
+    imagem: "/produtos/jaqueta-corta-vento.png",
   },
 
   // CAMISETAS
@@ -55,7 +55,7 @@ const produtos = [
     preco: 69.9,
     categoria: "Camisetas",
     tamanhos: ["P", "M", "G", "GG"],
-    imagem: "/produtos/camiseta-basica.png",
+    imagem: "/produtos/camiseta-street.png",
   },
   {
     id: 8,
@@ -63,7 +63,7 @@ const produtos = [
     preco: 79.9,
     categoria: "Camisetas",
     tamanhos: ["P", "M", "G", "GG"],
-    imagem: "/produtos/camiseta-oversized.png",
+    imagem: "/produtos/camiseta-nike.png",
   },
 
   // MOLETONS
@@ -73,7 +73,7 @@ const produtos = [
     preco: 169.9,
     categoria: "Moletons",
     tamanhos: ["P", "M", "G", "GG"],
-    imagem: "/produtos/moletom.png",
+    imagem: "/produtos/moletom-urban.png",
   },
   {
     id: 10,
@@ -81,7 +81,7 @@ const produtos = [
     preco: 189.9,
     categoria: "Moletons",
     tamanhos: ["P", "M", "G", "GG"],
-    imagem: "/produtos/moletom.png",
+    imagem: "/produtos/blusa-manga-longa.png",
   },
 
   // CALÇAS
@@ -91,7 +91,7 @@ const produtos = [
     preco: 139.9,
     categoria: "Calças",
     tamanhos: ["38", "40", "42", "44"],
-    imagem: "/produtos/calca-jeans.png",
+    imagem: "/produtos/calca-cargo.png",
   },
   {
     id: 12,
@@ -99,7 +99,7 @@ const produtos = [
     preco: 159.9,
     categoria: "Calças",
     tamanhos: ["38", "40", "42", "44"],
-    imagem: "/produtos/calca-jeans.png",
+    imagem: "/produtos/calca-jogger.png",
   },
 
   // BERMUDAS
@@ -109,7 +109,7 @@ const produtos = [
     preco: 89.9,
     categoria: "Bermudas",
     tamanhos: ["38", "40", "42", "44"],
-    imagem: "/produtos/bermuda.png",
+    imagem: "/produtos/bermuda-esportiva.png",
   },
   {
     id: 14,
@@ -117,7 +117,7 @@ const produtos = [
     preco: 99.9,
     categoria: "Bermudas",
     tamanhos: ["38", "40", "42", "44"],
-    imagem: "/produtos/bermuda.png",
+    imagem: "/produtos/bermuda-premium.png",
   },
 
   // JAQUETAS
@@ -127,7 +127,7 @@ const produtos = [
     preco: 219.9,
     categoria: "Jaquetas",
     tamanhos: ["P", "M", "G", "GG"],
-    imagem: "/produtos/jaqueta.png",
+    imagem: "/produtos/jaqueta-puffer.png",
   },
   {
     id: 16,
@@ -135,7 +135,7 @@ const produtos = [
     preco: 239.9,
     categoria: "Jaquetas",
     tamanhos: ["P", "M", "G", "GG"],
-    imagem: "/produtos/jaqueta.png",
+    imagem: "/produtos/jaqueta-premium.png",
   },
 ]
 
