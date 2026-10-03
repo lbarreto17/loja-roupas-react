@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 
+import Navbar from "../components/Navbar"
+import Footer from "../components/Footer"
 import { useAuth } from "../context/AuthContext"
 
 import {
@@ -31,8 +33,8 @@ function Carrinho() {
 
       const dadosFormatados = dados.map((item) => ({
         ...item,
-        preco: Number(item.preco),
-        quantidade: Number(item.quantidade)
+        preco: Number(item.preco) || 0,
+        quantidade: Number(item.quantidade) || 1
       }))
 
       setItens(dadosFormatados)
@@ -54,24 +56,22 @@ function Carrinho() {
   async function aumentar(item) {
     if (!usuario) return
 
-    const novaQuantidade = Number(item.quantidade) + 1
+    const novaQuantidade =
+      Number(item.quantidade) + 1
 
     // Atualiza a tela imediatamente
     setItens((itensAtuais) =>
-      itensAtuais.map((produto) => {
-        if (produto.id === item.id) {
-          return {
-            ...produto,
-            quantidade: novaQuantidade
-          }
-        }
-
-        return produto
-      })
+      itensAtuais.map((produto) =>
+        produto.id === item.id
+          ? {
+              ...produto,
+              quantidade: novaQuantidade
+            }
+          : produto
+      )
     )
 
     try {
-      // Atualiza também no Firestore
       await atualizarQuantidade(
         usuario.uid,
         item.id,
@@ -83,8 +83,6 @@ function Carrinho() {
         error
       )
 
-      // Se ocorrer erro, busca novamente
-      // os dados salvos no Firestore
       await carregarCarrinho()
     }
   }
@@ -96,30 +94,27 @@ function Carrinho() {
   async function diminuir(item) {
     if (!usuario) return
 
-    const quantidadeAtual = Number(item.quantidade)
+    const quantidadeAtual =
+      Number(item.quantidade)
 
-    if (quantidadeAtual <= 1) {
-      return
-    }
+    if (quantidadeAtual <= 1) return
 
-    const novaQuantidade = quantidadeAtual - 1
+    const novaQuantidade =
+      quantidadeAtual - 1
 
     // Atualiza a tela imediatamente
     setItens((itensAtuais) =>
-      itensAtuais.map((produto) => {
-        if (produto.id === item.id) {
-          return {
-            ...produto,
-            quantidade: novaQuantidade
-          }
-        }
-
-        return produto
-      })
+      itensAtuais.map((produto) =>
+        produto.id === item.id
+          ? {
+              ...produto,
+              quantidade: novaQuantidade
+            }
+          : produto
+      )
     )
 
     try {
-      // Atualiza também no Firestore
       await atualizarQuantidade(
         usuario.uid,
         item.id,
@@ -150,7 +145,6 @@ function Carrinho() {
     )
 
     try {
-      // Remove também do Firestore
       await removerProduto(
         usuario.uid,
         itemId
@@ -166,18 +160,32 @@ function Carrinho() {
   }
 
   // ==============================
-  // CALCULAR TOTAL
+  // RESUMO DO PEDIDO
   // ==============================
 
-  const total = itens.reduce(
-    (soma, item) => {
-      const preco = Number(item.preco)
-      const quantidade = Number(item.quantidade)
+  const resumo = useMemo(() => {
+    return itens.reduce(
+      (resultado, item) => {
+        const preco =
+          Number(item.preco) || 0
 
-      return soma + preco * quantidade
-    },
-    0
-  )
+        const quantidade =
+          Number(item.quantidade) || 0
+
+        resultado.quantidade +=
+          quantidade
+
+        resultado.total +=
+          preco * quantidade
+
+        return resultado
+      },
+      {
+        quantidade: 0,
+        total: 0
+      }
+    )
+  }, [itens])
 
   // ==============================
   // USUÁRIO NÃO LOGADO
@@ -185,23 +193,30 @@ function Carrinho() {
 
   if (!usuario) {
     return (
-      <main className="cart-page">
+      <>
+        <Navbar />
 
-        <div className="cart-empty">
+        <main className="cart-page">
+          <div className="cart-empty">
+            <span className="cart-eyebrow">
+              STYLE
+            </span>
 
-          <h1>Seu carrinho</h1>
+            <h1>Seu carrinho</h1>
 
-          <p>
-            Entre na sua conta para visualizar seu carrinho.
-          </p>
+            <p>
+              Entre na sua conta para visualizar
+              seus produtos.
+            </p>
 
-          <Link to="/login">
-            Entrar
-          </Link>
+            <Link to="/login">
+              Entrar na minha conta
+            </Link>
+          </div>
+        </main>
 
-        </div>
-
-      </main>
+        <Footer />
+      </>
     )
   }
 
@@ -211,13 +226,17 @@ function Carrinho() {
 
   if (carregando) {
     return (
-      <main className="cart-page">
+      <>
+        <Navbar />
 
-        <p>
-          Carregando carrinho...
-        </p>
+        <main className="cart-page">
+          <div className="cart-empty">
+            <p>Carregando carrinho...</p>
+          </div>
+        </main>
 
-      </main>
+        <Footer />
+      </>
     )
   }
 
@@ -227,132 +246,233 @@ function Carrinho() {
 
   if (itens.length === 0) {
     return (
-      <main className="cart-page">
+      <>
+        <Navbar />
 
-        <div className="cart-empty">
+        <main className="cart-page">
+          <div className="cart-empty">
+            <span className="cart-eyebrow">
+              SUA SELEÇÃO
+            </span>
 
-          <h1>Seu carrinho</h1>
+            <h1>
+              Seu carrinho está vazio.
+            </h1>
 
-          <p>
-            Seu carrinho está vazio.
-          </p>
+            <p>
+              Explore nossa coleção e encontre
+              peças que combinam com você.
+            </p>
 
-          <Link to="/">
-            Ver produtos
-          </Link>
+            <Link to="/#produtos">
+              Explorar coleção
+            </Link>
+          </div>
+        </main>
 
-        </div>
-
-      </main>
+        <Footer />
+      </>
     )
   }
 
   // ==============================
-  // EXIBIR CARRINHO
+  // CARRINHO
   // ==============================
 
   return (
-    <main className="cart-page">
+    <>
+      <Navbar />
 
-      <div className="cart-container">
+      <main className="cart-page">
+        <div className="cart-container">
 
-        <h1>Seu carrinho</h1>
+          <div className="cart-heading">
+            <div>
+              <span className="cart-eyebrow">
+                SUA SELEÇÃO
+              </span>
 
-        <div className="cart-list">
+              <h1>Seu carrinho</h1>
 
-          {itens.map((item) => {
-            const preco = Number(item.preco)
-            const quantidade = Number(item.quantidade)
-            const subtotal = preco * quantidade
+              <p>
+                Confira os produtos escolhidos
+                antes de finalizar.
+              </p>
+            </div>
 
-            return (
-              <div
-                className="cart-item"
-                key={`${item.id}-${item.quantidade}`}
-              >
+            <Link
+              to="/#produtos"
+              className="continue-shopping"
+            >
+              ← Continuar comprando
+            </Link>
+          </div>
 
-                <img
-                  src={item.imagem}
-                  alt={item.nome}
-                />
+          <div className="cart-layout">
 
-                <div className="cart-item-info">
+            {/* LISTA DE PRODUTOS */}
 
-                  <h2>
-                    {item.nome}
-                  </h2>
+            <div className="cart-list">
 
-                  <p>
-                    Tamanho: {item.tamanho}
-                  </p>
+              {itens.map((item) => {
+                const preco =
+                  Number(item.preco) || 0
 
-                  <p>
-                    Preço unitário: R${" "}
-                    {preco
-                      .toFixed(2)
-                      .replace(".", ",")}
-                  </p>
+                const quantidade =
+                  Number(item.quantidade) || 0
 
-                  <p>
-                    Subtotal: R${" "}
-                    {subtotal
-                      .toFixed(2)
-                      .replace(".", ",")}
-                  </p>
+                const subtotal =
+                  preco * quantidade
 
-                  
-
-                </div>
-
-                <div className="cart-quantity">
-
-                  <button
-                    type="button"
-                    onClick={() => diminuir(item)}
+                return (
+                  <article
+                    className="cart-item"
+                    key={item.id}
                   >
-                    -
-                  </button>
 
-                  <span>
-                    {quantidade}
-                  </span>
+                    <div className="cart-image">
+                      <img
+                        src={item.imagem}
+                        alt={item.nome}
+                      />
+                    </div>
 
-                  <button
-                    type="button"
-                    onClick={() => aumentar(item)}
-                  >
-                    +
-                  </button>
+                    <div className="cart-item-info">
 
-                </div>
+                      <span>STYLE</span>
 
-                <button
-                  type="button"
-                  className="remove-button"
-                  onClick={() => remover(item.id)}
-                >
-                  Remover
-                </button>
+                      <h2>
+                        {item.nome}
+                      </h2>
 
+                      <p>
+                        Tamanho:{" "}
+                        <strong>
+                          {item.tamanho}
+                        </strong>
+                      </p>
+
+                      <p>
+                        Preço unitário: R${" "}
+                        {preco
+                          .toFixed(2)
+                          .replace(".", ",")}
+                      </p>
+
+                      <strong className="item-subtotal">
+                        Subtotal: R${" "}
+                        {subtotal
+                          .toFixed(2)
+                          .replace(".", ",")}
+                      </strong>
+
+                    </div>
+
+                    <div className="cart-actions">
+
+                      <div className="cart-quantity">
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            diminuir(item)
+                          }
+                        >
+                          −
+                        </button>
+
+                        <span>
+                          {quantidade}
+                        </span>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            aumentar(item)
+                          }
+                        >
+                          +
+                        </button>
+
+                      </div>
+
+                      <button
+                        type="button"
+                        className="remove-button"
+                        onClick={() =>
+                          remover(item.id)
+                        }
+                      >
+                        Remover
+                      </button>
+
+                    </div>
+
+                  </article>
+                )
+              })}
+
+            </div>
+
+            {/* RESUMO DO PEDIDO */}
+
+            <aside className="cart-summary">
+
+              <span className="cart-eyebrow">
+                RESUMO
+              </span>
+
+              <h2>
+                Resumo do pedido
+              </h2>
+
+              <div className="summary-line">
+                <span>Produtos</span>
+
+                <span>
+                  {resumo.quantidade}
+                </span>
               </div>
-            )
-          })}
 
+              <div className="summary-line">
+                <span>Entrega</span>
+
+                <span>
+                  A calcular
+                </span>
+              </div>
+
+              <div className="summary-total">
+                <span>Total</span>
+
+                <strong>
+                  R${" "}
+                  {resumo.total
+                    .toFixed(2)
+                    .replace(".", ",")}
+                </strong>
+              </div>
+
+              <button
+                type="button"
+                className="checkout-button"
+              >
+                Finalizar compra
+              </button>
+
+              <small>
+                Ambiente demonstrativo —
+                projeto acadêmico.
+              </small>
+
+            </aside>
+
+          </div>
         </div>
+      </main>
 
-        <div
-          className="cart-total"
-          key={total}
-        >
-          Total: R${" "}
-          {total
-            .toFixed(2)
-            .replace(".", ",")}
-        </div>
-
-      </div>
-
-    </main>
+      <Footer />
+    </>
   )
 }
 
