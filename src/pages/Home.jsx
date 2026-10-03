@@ -13,15 +13,39 @@ function Home() {
           <div className="hero-content">
             <p className="hero-subtitle">NOVA COLEÇÃO</p>
 
-            <h2>Vista seu estilo.</h2>
+            <h1>
+              Vista seu <span>estilo.</span>
+            </h1>
 
-            <p>
+            <p className="hero-description">
               Encontre peças que combinam com você e monte seu próprio estilo.
             </p>
 
             <a href="#produtos" className="hero-button">
-              Ver produtos
+              Ver produtos →
             </a>
+          </div>
+
+          <div className="hero-details">
+            <div>
+              <strong>Entrega</strong>
+              <span>Para todo o Brasil</span>
+            </div>
+
+            <div>
+              <strong>Pagamento</strong>
+              <span>Compra segura</span>
+            </div>
+
+            <div>
+              <strong>Estilo</strong>
+              <span>Peças selecionadas</span>
+            </div>
+
+            <div>
+              <strong>Qualidade</strong>
+              <span>Em cada detalhe</span>
+            </div>
           </div>
         </section>
 
@@ -29,11 +53,26 @@ function Home() {
           <div className="section-title">
             <p>CONHEÇA NOSSA COLEÇÃO</p>
             <h2>Produtos em destaque</h2>
+            <span>
+              Peças selecionadas para você montar seu estilo.
+            </span>
+          </div>
+
+          <div className="category-tags">
+            <span>Todos</span>
+            <span>Camisetas</span>
+            <span>Moletons</span>
+            <span>Calças</span>
+            <span>Bermudas</span>
+            <span>Jaquetas</span>
           </div>
 
           <div className="products-grid">
             {produtos.map((produto) => (
-              <ProductCard key={produto.id} produto={produto} />
+              <ProductCard
+                key={produto.id}
+                produto={produto}
+              />
             ))}
           </div>
         </section>

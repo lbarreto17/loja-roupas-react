@@ -14,54 +14,117 @@ function Cadastro() {
     setErro("")
 
     try {
-      await createUserWithEmailAndPassword(auth, email, senha)
+      await createUserWithEmailAndPassword(
+        auth,
+        email,
+        senha
+      )
+
       navigate("/")
     } catch (error) {
       console.error(error)
-      setErro("Não foi possível realizar o cadastro.")
+
+      setErro(
+        "Não foi possível realizar o cadastro."
+      )
     }
   }
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <h1>STYLE</h1>
-        <h2>Criar conta</h2>
+    <main className="auth-page">
 
-        <form onSubmit={cadastrar}>
-          <label>E-mail</label>
+      <section className="auth-presentation">
+        <Link to="/" className="auth-logo">
+          STYLE
+        </Link>
 
-          <input
-            type="email"
-            placeholder="Digite seu e-mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        <div className="auth-presentation-content">
+          <span>FAÇA PARTE</span>
 
-          <label>Senha</label>
+          <h1>Crie seu estilo.</h1>
 
-          <input
-            type="password"
-            placeholder="Crie uma senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            required
-            minLength="6"
-          />
+          <p>
+            Crie sua conta e monte uma coleção
+            que combine com você.
+          </p>
+        </div>
+      </section>
 
-          {erro && <p className="auth-error">{erro}</p>}
+      <section className="auth-form-area">
 
-          <button type="submit">
-            Criar conta
-          </button>
-        </form>
+        <div className="auth-card">
 
-        <p>
-          Já possui uma conta? <Link to="/login">Entrar</Link>
-        </p>
-      </div>
-    </div>
+          <div className="auth-heading">
+            <p>STYLE</p>
+            <h2>Criar conta</h2>
+
+            <span>
+              Comece sua experiência com a gente
+            </span>
+          </div>
+
+          <form onSubmit={cadastrar}>
+
+            <label htmlFor="email">
+              E-mail
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              placeholder="Digite seu e-mail"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+              required
+            />
+
+            <label htmlFor="senha">
+              Senha
+            </label>
+
+            <input
+              id="senha"
+              type="password"
+              placeholder="Crie uma senha"
+              value={senha}
+              onChange={(e) =>
+                setSenha(e.target.value)
+              }
+              required
+              minLength="6"
+            />
+
+            {erro && (
+              <p className="auth-error">
+                {erro}
+              </p>
+            )}
+
+            <button type="submit">
+              Criar conta
+            </button>
+          </form>
+
+          <p className="auth-switch">
+            Já possui uma conta?{" "}
+            <Link to="/login">
+              Entrar
+            </Link>
+          </p>
+
+          <Link
+            to="/"
+            className="auth-back"
+          >
+            ← Voltar para a loja
+          </Link>
+
+        </div>
+      </section>
+
+    </main>
   )
 }
 

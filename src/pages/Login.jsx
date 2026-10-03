@@ -14,7 +14,12 @@ function Login() {
     setErro("")
 
     try {
-      await signInWithEmailAndPassword(auth, email, senha)
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        senha
+      )
+
       navigate("/")
     } catch (error) {
       console.error(error)
@@ -23,44 +28,97 @@ function Login() {
   }
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <h1>STYLE</h1>
-        <h2>Entrar</h2>
+    <main className="auth-page">
 
-        <form onSubmit={entrar}>
-          <label>E-mail</label>
+      <section className="auth-presentation">
+        <Link to="/" className="auth-logo">
+          STYLE
+        </Link>
 
-          <input
-            type="email"
-            placeholder="Digite seu e-mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        <div className="auth-presentation-content">
+          <span>NOVA COLEÇÃO</span>
 
-          <label>Senha</label>
+          <h1>Bem-vindo de volta!</h1>
 
-          <input
-            type="password"
-            placeholder="Digite sua senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            required
-          />
+          <p>
+            Acesse sua conta para continuar
+            montando seu estilo.
+          </p>
+        </div>
+      </section>
 
-          {erro && <p className="auth-error">{erro}</p>}
+      <section className="auth-form-area">
+        <div className="auth-card">
 
-          <button type="submit">
-            Entrar
-          </button>
-        </form>
+          <div className="auth-heading">
+            <p>STYLE</p>
+            <h2>Entrar</h2>
+            <span>
+              Acesse sua conta para continuar
+            </span>
+          </div>
 
-        <p>
-          Não possui conta? <Link to="/cadastro">Cadastre-se</Link>
-        </p>
-      </div>
-    </div>
+          <form onSubmit={entrar}>
+
+            <label htmlFor="email">
+              E-mail
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              placeholder="Digite seu e-mail"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+              required
+            />
+
+            <label htmlFor="senha">
+              Senha
+            </label>
+
+            <input
+              id="senha"
+              type="password"
+              placeholder="Digite sua senha"
+              value={senha}
+              onChange={(e) =>
+                setSenha(e.target.value)
+              }
+              required
+            />
+
+            {erro && (
+              <p className="auth-error">
+                {erro}
+              </p>
+            )}
+
+            <button type="submit">
+              Entrar
+            </button>
+          </form>
+
+          <p className="auth-switch">
+            Não possui conta?{" "}
+            <Link to="/cadastro">
+              Cadastre-se
+            </Link>
+          </p>
+
+          <Link
+            to="/"
+            className="auth-back"
+          >
+            ← Voltar para a loja
+          </Link>
+
+        </div>
+      </section>
+
+    </main>
   )
 }
 
